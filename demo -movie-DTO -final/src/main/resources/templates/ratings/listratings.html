@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Movie Rating</title>
+</head>
+
+<body>
+<div class="container">
+    <h3>Movies Rating </h3>
+    <hr>
+    <!-- Add a logout button -->
+    <form action="#" th:action="@{/logout}"
+          method="POST">
+        <input type="submit" value="Logout" class="btn btn-outline-primary mt-2" style="float: right;"/>
+    </form>
+
+
+    <!-- <a th:href="@{/reviews/showFormForAdd}"
+        class="btn btn-primary btn-sm mr-5 mb-3">
+         Add Review
+     </a> -->
+    <a th:href="@{/movies/list}"
+       class="btn btn-primary btn-sn mr-5 mb-3">Back to Movies</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Movie Name</th>
+            <th>RatingScore</th>
+            <th>RatingReview</th>
+            <div >
+                <th>Update</th>
+            </div>
+            <div >
+                <th>Delete</th>
+            </div>
+
+        </tr>
+        </thead>
+        <tbody>
+       <!-- <tr th:each="tempMovie : ${movie}">
+            <td th:text="${tempMovie.movieName}"/>
+        </tr>-->
+        <tr th:each="tempRating: ${rating}">
+            <td th:text="${tempRating.movie.movieName}"/>
+            <td th:text="${tempRating.ratingScore}" />
+            <td th:text="${tempRating.ratingReview}"/>
+            <div >
+                <div sec:authorize="isAuthenticated()">
+                    <!-- div only for ADMIN role -->
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                <td>
+
+                    <a th:href="@{/ratings/showFormForUpdate(ratingId=${tempRating.id})}"
+                       class="btn btn-info btn-sm">
+                        Update
+                    </a>
+
+
+                </td>
+                    </div>
+                </div>
+            </div>
+            <div >
+                <div sec:authorize="isAuthenticated()">
+                    <!-- div only for ADMIN role -->
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                <td>
+
+                    <a th:href="@{/ratings/delete(ratingId=${tempRating.id})}"
+                       class="btn btn-info btn-sm  btn btn-danger"
+                       onclick="if (!(confirm('Are you sure you want to delete this Review?')))
+                               return false">
+                        Delete
+                    </a>
+
+                </td>
+                    </div>
+                </div>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
